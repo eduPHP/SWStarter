@@ -1,0 +1,29 @@
+:root {
+    --light-grey: #dadada;
+    --pinkish-grey: #c4c4c4;
+    --emerald: #089954;
+    --blue: #0094ff;
+    --green-teal: #0ab463;
+    --warm-grey-75: rgba(132, 132, 132, 0.75);
+
+    --background: #ededed;
+    --foreground: #fff;
+    --card-background: #fff;
+}
+
+body, html {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    background: var(--background);
+    margin: 0;
+}
+
+.container {
+    width: 540px;
+    margin: 0 auto;
+}
