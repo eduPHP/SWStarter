@@ -5,10 +5,7 @@ import { Results } from '@/components/Results';
 export default function Search() {
     return (
         <>
-            <Head title="Search">
-                <link rel="preconnect" href="https://fonts.bunny.net" />
-                <link href="https://fonts.bunny.net/css?family=montserrat:400,500,700" rel="stylesheet" />
-            </Head>
+            <Head title="Search" />
             <nav className="navbar">
                 SWStarter
             </nav>
