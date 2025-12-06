@@ -19,7 +19,7 @@ export function Results() {
                     There are zero matches. <br/>
                     Use the form to search for People or Movies.
                 </p>}
-                {results.length > 0 && <div className="results-list">
+                {!loading && results.length > 0 && <div className="results-list">
                     {results.map((result: Result) => <div className="result" key={result.id}>
                         <Heading level={2} title={result.title} />
                         <Button onClick={() => null}>See Details</Button>
