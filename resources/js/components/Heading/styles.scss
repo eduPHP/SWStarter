@@ -1,8 +1,13 @@
-.heading-1 {
+.heading {
     margin: 0;
     font-weight: bold;
+    display: block;
+    color: var(--heading-color);
+}
+.heading.level-1 {
     font-size: 1.3rem;
     width: 100%;
-    display: block;
-    border-bottom: 1 px solid var(--light-grey);
+}
+.heading.level-2 {
+    font-size: 1.2rem;
 }
