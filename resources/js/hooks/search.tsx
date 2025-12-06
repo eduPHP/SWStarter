@@ -7,7 +7,7 @@ import React, {
 
 type SearchType = "people" | "movies";
 
-type Result = {
+export type Result = {
     id: number;
     title: string;
 };
