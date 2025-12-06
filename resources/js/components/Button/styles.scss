@@ -2,12 +2,19 @@ button.btn {
     text-transform: uppercase;
     font-weight: bold;
     color: var(--foreground);
-    border: solid .5px var(--pinkish-grey);
     border-radius: 999px;
-    padding: .4rem 1rem;
+    padding: .4rem 1.7rem;
+    border: solid 1px var(--emerald);
     background: var(--emerald);
+    transition: all 0.2s ease;
+
     &:disabled {
         opacity: .5;
+        border: solid 1px var(--warm-grey-75);
         background: var(--warm-grey-75);
+    }
+    &:hover:not(:disabled) {
+        border: solid 1px color-mix(in srgb, var(--emerald) 70%, white 30%);
+        background: color-mix(in srgb, var(--emerald) 70%, white 30%);
     }
 }
