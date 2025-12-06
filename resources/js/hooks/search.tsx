@@ -4,18 +4,14 @@ import React, {
     useState,
     ReactNode,
 } from "react";
+import { ResultType } from '@/components/Result';
 
 type SearchType = "people" | "movies";
-
-export type Result = {
-    id: number;
-    title: string;
-};
 
 type SearchContextValue = {
     query: string;
     type: SearchType;
-    results: Result[];
+    results: ResultType[];
     loading: boolean;
     error: string | null;
     setQuery: (q: string) => void;
@@ -34,7 +30,7 @@ type SearchProviderProps = {
 export function SearchProvider({ children }: SearchProviderProps) {
     const [query, setQuery] = useState("");
     const [type, setType] = useState<SearchType>("people");
-    const [results, setResults] = useState<Result[]>([]);
+    const [results, setResults] = useState<ResultType[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 

@@ -2,8 +2,8 @@ import './styles.scss'
 import { Card } from '@/components/Card';
 import { Heading } from '@/components/Heading';
 import { Separator } from '@/components/Separator';
-import { Result, useSearch } from '@/hooks/search';
-import { Button } from '@/components/Button';
+import { useSearch } from '@/hooks/search';
+import { Result, ResultType } from '@/components/Result';
 
 export function Results() {
     const {loading, results} = useSearch()
@@ -20,10 +20,7 @@ export function Results() {
                     Use the form to search for People or Movies.
                 </p>}
                 {!loading && results.length > 0 && <div className="results-list">
-                    {results.map((result: Result) => <div className="result" key={result.id}>
-                        <Heading level={2} title={result.title} />
-                        <Button onClick={() => null}>See Details</Button>
-                    </div>)}
+                    {results.map((result: ResultType) => <Result result={result} key={result.id} />)}
                 </div>}
             </div>
         </Card>
