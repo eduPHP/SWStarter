@@ -1,4 +1,6 @@
+import './styles.scss'
 import React, { JSX } from "react";
+import { cn } from '@/lib/utils';
 
 type HeadingLevel = 1 | 2; // only what we use for now
 
@@ -14,7 +16,7 @@ export function Heading({level = 1, title, className = ""}: HeadingProps) {
     const Tag = `h${numericLevel}` as keyof JSX.IntrinsicElements;
 
     return (
-        <Tag className={`heading level-${numericLevel} ${className}`}>
+        <Tag className={cn('heading', `level-${numericLevel}`, className)}>
             {title}
         </Tag>
     );
