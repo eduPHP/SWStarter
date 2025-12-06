@@ -5,8 +5,8 @@ import { Button } from '@/components/Button';
 import { useState } from 'react';
 import { RadioGroup } from '@/components/RadioGroup';
 
-export function Search() {
-    const [search, setSearch] = useState('people');
+export function SearchBox() {
+    const [search, setSearch] = useState('');
     const [selectedOption, setSelectedOption] = useState('people');
 
     return (

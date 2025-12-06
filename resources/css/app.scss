@@ -11,6 +11,10 @@
     --card-background: #fff;
 }
 
+* {
+    box-sizing: border-box;
+}
+
 body, html {
     font-family: 'Montserrat', sans-serif;
     font-size: 14px;
@@ -24,6 +28,34 @@ body {
 }
 
 .container {
-    width: 540px;
+    width: 1024px;
     margin: 0 auto;
+    height: 100%;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+    color: var(--emerald);
+    font-weight: bolder;
+    font-size: 1.3rem;
+    background: var(--foreground);
+    box-shadow: 0 1px 1px 0 var(--warm-grey-75);
+}
+
+.search-container {
+    display: flex;
+    gap: 2rem;
+
+    aside {
+        width: 35%;
+    }
+
+    main {
+        width: 65%;
+        min-height: 70vh;
+    }
 }
