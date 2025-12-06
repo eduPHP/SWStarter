@@ -7,10 +7,15 @@ import React, {
 
 type SearchType = "people" | "movies";
 
+type Result = {
+    id: number;
+    title: string;
+};
+
 type SearchContextValue = {
     query: string;
     type: SearchType;
-    results: any[];
+    results: Result[];
     loading: boolean;
     error: string | null;
     setQuery: (q: string) => void;
@@ -29,7 +34,7 @@ type SearchProviderProps = {
 export function SearchProvider({ children }: SearchProviderProps) {
     const [query, setQuery] = useState("");
     const [type, setType] = useState<SearchType>("people");
-    const [results, setResults] = useState<any[]>([]);
+    const [results, setResults] = useState<Result[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -42,12 +47,14 @@ export function SearchProvider({ children }: SearchProviderProps) {
             setError(null);
 
             // TODO: API call
-
             // Dummy data for now:
-            await new Promise((r) => setTimeout(r, 400));
+            await new Promise((r) => setTimeout(r, 1000));
+
             setResults([
-                { id: 1, name: `Result for "${q}" (${type})` },
-                { id: 2, name: `Another match for "${q}" (${type})` },
+                { id: 1, title: `Biggs Darklighter` },
+                { id: 2, title: `Obi-Wan Kenobi` },
+                { id: 3, title: `Jar Jar Binks` },
+                { id: 4, title: `Bib Fortuna` },
             ]);
         } catch (e: any) {
             setError(e?.message ?? "Unknown error");
