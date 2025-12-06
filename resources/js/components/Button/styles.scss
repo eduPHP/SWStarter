@@ -1,0 +1,13 @@
+button.btn {
+    text-transform: uppercase;
+    font-weight: bold;
+    color: var(--foreground);
+    border: solid .5px var(--pinkish-grey);
+    border-radius: 999px;
+    padding: .4rem 1rem;
+    background: var(--emerald);
+    &:disabled {
+        opacity: .5;
+        background: var(--warm-grey-75);
+    }
+}
