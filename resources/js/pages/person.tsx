@@ -46,6 +46,5 @@ export default function Person({ person }: {person: PersonType}) {
                 </Card>
             </div>
         </>
-
     )
 }
