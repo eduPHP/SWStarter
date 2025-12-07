@@ -12,7 +12,7 @@ type MovieType = {
     characters: {name: string, id: number}[];
 }
 
-export default function movie({ movie }: {movie: MovieType}) {
+export default function Movie({ movie }: {movie: MovieType}) {
     const { title, details, characters } = movie;
 
     return (

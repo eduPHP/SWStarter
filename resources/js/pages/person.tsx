@@ -12,7 +12,7 @@ type PersonType = {
     movies: {title: string, id: number}[];
 };
 
-export default function person({ person }: {person: PersonType}) {
+export default function Person({ person }: {person: PersonType}) {
     const { name, details, movies } = person;
 
     return (
