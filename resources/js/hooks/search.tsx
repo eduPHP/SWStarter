@@ -6,7 +6,7 @@ import React, {
 } from "react";
 import { ResultType } from '@/components/Result';
 
-type SearchType = "people" | "movies";
+export type SearchType = "people" | "movies";
 
 type SearchContextValue = {
     query: string;

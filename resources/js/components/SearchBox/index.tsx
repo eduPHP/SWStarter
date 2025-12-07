@@ -2,26 +2,22 @@ import './styles.scss'
 import { Card } from '@/components/Card';
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
-import { useState } from 'react';
-import { RadioGroup } from '@/components/RadioGroup';
+import { TypeSelector } from '@/components/TypeSelector';
 import { useSearch } from '@/hooks/search';
 
 export function SearchBox() {
-    const [query, setQuery] = useState('');
-    const [selectedOption, setSelectedOption] = useState('people');
-
-    const {search, loading} = useSearch()
+    const {search, loading, type, setType, query, setQuery} = useSearch()
 
     return (
         <Card className="search">
             <p>What are you searching for?</p>
 
-            <RadioGroup value={selectedOption} options={[
+            <TypeSelector value={type} options={[
                 { label: 'People', key: 'people' },
                 { label: 'Movies', key: 'movies' }
-            ]} onSelect={setSelectedOption}/>
+            ]} onSelect={setType}/>
 
-            <Input onChange={(ev) => setQuery(ev.target.value)} type="text" placeholder="e.g. Chewbacca, Yoda, Boba Fett"/>
+            <Input onChange={(ev) => setQuery(ev.target.value)} type="text" placeholder={type === 'people' ? 'e.g. Chewbacca, Yoda, Boba Fett' : 'e.g. Return of the Jedi, The Clone Wars'}/>
             <Button onClick={() => search(query)} disabled={query.length === 0}>
                 {loading ? 'Searching...' : 'Search'}
             </Button>
