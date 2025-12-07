@@ -6,7 +6,7 @@ import { useSearch } from '@/hooks/search';
 import { Result, ResultType } from '@/components/Result';
 
 export function Results() {
-    const {loading, results} = useSearch()
+    const {loading, results, type} = useSearch()
 
     return (
         <Card className="results">
@@ -20,7 +20,7 @@ export function Results() {
                     Use the form to search for People or Movies.
                 </p>}
                 {!loading && results.length > 0 && <div className="results-list">
-                    {results.map((result: ResultType) => <Result result={result} key={result.id} />)}
+                    {results.map((result: ResultType) => <Result type={type} result={result} key={result.id} />)}
                 </div>}
             </div>
         </Card>
