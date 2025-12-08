@@ -52,8 +52,9 @@ export function SearchProvider({ children }: SearchProviderProps) {
                 { id: 3, title: `Jar Jar Binks` },
                 { id: 4, title: `Bib Fortuna` },
             ]);
-        } catch (e: any) {
-            setError(e?.message ?? "Unknown error");
+        } catch (err) {
+            setError("Request error");
+            console.log(err)
         } finally {
             setLoading(false);
         }
