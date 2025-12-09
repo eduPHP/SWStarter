@@ -7,7 +7,9 @@ Route::get('/', function () {
     return Inertia::render('search');
 })->name('search');
 
-Route::get('/people/{person}', function () {
+Route::get('/people/{id}', function ($id, \SWApi\Resources\Person $service) {
+    $person = $service->findById($id);
+
     return Inertia::render('person', [
         'person' => [
             'name' => 'Test',
