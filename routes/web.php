@@ -7,57 +7,29 @@ Route::get('/', function () {
     return Inertia::render('search');
 })->name('search');
 
+Route::get('/find/people', function (\SWApi\Resources\Person $service) {
+    return $service->search(request()->input('q'))->map(fn($person) => [
+        'id' => $person['id'],
+        'title' => $person['name'],
+    ]);
+});
+
+Route::get('/find/movie', function (\SWApi\Resources\Movie $service) {
+    return $service->search(request()->input('q'))->values();
+});
+
 Route::get('/people/{id}', function ($id, \SWApi\Resources\Person $service) {
     $person = $service->findById($id);
 
     return Inertia::render('person', [
-        'person' => [
-            'name' => 'Test',
-            'details' => [
-                ['name' => 'Test Detail', 'value' => 'Test Value'],
-            ],
-            'movies' => [
-                ['title' => 'Test Movie', 'id' => 1],
-                ['title' => 'Another Movie', 'id' => 2],
-            ]
-        ]
+        'person' => $person,
     ]);
 });
 
-Route::get('/movies/{movie}', function () {
+Route::get('/movies/{id}', function ($id, \SWApi\Resources\Movie $service) {
+    $movie = $service->findById($id);
+
     return Inertia::render('movie', [
-        'movie' => [
-            'title' => 'Test movie',
-            'details' => 'Luke Skywalker has returned to
-his home planet of Tatooine in
-an attempt to rescue his
-friend Han Solo from the
-clutches of the vile gangster
-Jabba the Hutt.
-
-Little does Luke know that the
-GALACTIC EMPIRE has secretly
-begun construction on a new
-armored space station even
-more powerful than the first
-dreaded Death Star.
-
-When completed, this ultimate
-weapon will spell certain doom
-for the small band of rebels
-struggling to restore freedom
-to the galaxy...',
-            'characters' => [
-                ['name' => 'someone', 'id' => 1],
-                ['name' => 'foo', 'id' => 4],
-                ['name' => 'bar', 'id' => 7],
-                ['name' => 'asdasdasda', 'id' => 8],
-                ['name' => 'sdfsdf sdfsf', 'id' => 9],
-                ['name' => 'bar', 'id' => 10],
-                ['name' => 'asdadasdasda', 'id' => 11],
-                ['name' => 'bar', 'id' => 12],
-                ['name' => 'hgfhfghdfgh', 'id' => 15],
-            ]
-        ]
+        'movie' => $movie,
     ]);
 });
