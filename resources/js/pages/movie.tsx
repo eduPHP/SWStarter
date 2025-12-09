@@ -2,7 +2,7 @@ import '../../css/result.scss'
 import { Heading } from '@/components/Heading';
 import { Separator } from '@/components/Separator';
 import { Button } from '@/components/Button';
-import { Head, router } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import { Card } from '@/components/Card';
 
 type MovieType = {
@@ -40,8 +40,8 @@ export default function Movie({ movie }: {movie: MovieType}) {
                             <div>
                                 { characters.map((character: {name: string, id: number}) => (
                                     <span key={character.id}>
-                                    <a href={`/people/${character.id}`}>{character.name}</a>
-                                </span>
+                                        <Link href={`/people/${character.id}`}>{character.name}</Link>
+                                    </span>
                                 )) }
                             </div>
                         </div>

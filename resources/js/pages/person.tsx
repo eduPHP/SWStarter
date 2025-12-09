@@ -2,7 +2,7 @@ import '../../css/result.scss'
 import { Heading } from '@/components/Heading';
 import { Separator } from '@/components/Separator';
 import { Button } from '@/components/Button';
-import { Head, router } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import { Card } from '@/components/Card';
 
 type PersonType = {
@@ -18,9 +18,7 @@ export default function Person({ person }: {person: PersonType}) {
     return (
         <>
             <Head title="Search" />
-            <nav className="navbar">
-                SWStarter
-            </nav>
+            <nav className="navbar">SWStarter</nav>
             <div className="container">
                 <Card className="result-details">
                     <Heading title={name} />
@@ -30,14 +28,22 @@ export default function Person({ person }: {person: PersonType}) {
                             <Heading level={2} title="Details" />
                             <Separator />
                             <div>
-                                { details.map((detail: {label: string, value: string}) => <p key={detail.label}>{detail.label}: {detail.value}</p>) }
+                                {details.map((detail: { label: string; value: string }) => (
+                                    <span className="person-details" key={detail.label}>
+                                        {detail.label}: {detail.value}
+                                    </span>
+                                ))}
                             </div>
                         </div>
                         <div>
                             <Heading level={2} title="Movies" />
                             <Separator />
                             <div className="result-details-movies">
-                                { movies.map((movie: {title: string, id: number}) => <a href={`/movies/${movie.id}`} key={movie.id}>{movie.title}</a>) }
+                                {movies.map((movie: { title: string; id: number }) => (
+                                    <Link href={`/movies/${movie.id}`} key={movie.id}>
+                                        {movie.title}
+                                    </Link>
+                                ))}
                             </div>
                         </div>
                     </div>
@@ -46,5 +52,5 @@ export default function Person({ person }: {person: PersonType}) {
                 </Card>
             </div>
         </>
-    )
+    );
 }
