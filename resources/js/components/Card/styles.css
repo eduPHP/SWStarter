@@ -5,3 +5,8 @@
     box-shadow: 0 1px 1px 0 var(--warm-grey-75);
     padding: 2rem;
 }
+@media (max-width: 600px) {
+    .card {
+        padding: 2rem 1rem;
+    }
+}

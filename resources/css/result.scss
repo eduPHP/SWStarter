@@ -44,3 +44,21 @@
         display: block;
     }
 }
+
+@media (max-width: 600px) {
+    .result-details {
+        width: 100%;
+        &-info {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            padding-bottom: 2rem;
+            &-description {
+                white-space: pre-wrap;
+                padding-bottom: 1rem;
+            }
+        }
+        button {
+            width: 100%;
+        }
+    }
+}

@@ -60,3 +60,22 @@ body {
         min-height: 70vh;
     }
 }
+@media (max-width: 600px) {
+    .container {
+        width: auto;
+        margin: 0 .75rem;
+    }
+    .search-container {
+        flex-direction: column;
+
+        aside {
+            width: 100%;
+        }
+
+        main {
+            width: 100%;
+            max-width: 100%;
+            min-height: auto;
+        }
+    }
+}
