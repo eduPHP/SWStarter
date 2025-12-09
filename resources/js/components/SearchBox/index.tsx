@@ -17,8 +17,8 @@ export function SearchBox() {
                 { label: 'Movies', key: 'movies' }
             ]} onSelect={setType}/>
 
-            <Input onChange={(ev) => setQuery(ev.target.value)} type="text" placeholder={type === 'people' ? 'e.g. Chewbacca, Yoda, Boba Fett' : 'e.g. Return of the Jedi, The Clone Wars'}/>
-            <Button onClick={() => search(query)} disabled={query.length === 0}>
+            <Input value={query} onChange={(ev) => setQuery(ev.target.value)} type="text" placeholder={type === 'people' ? 'e.g. Chewbacca, Yoda, Boba Fett' : 'e.g. Return of the Jedi, The Clone Wars'}/>
+            <Button onClick={() => search()} disabled={query.length === 0}>
                 {loading ? 'Searching...' : 'Search'}
             </Button>
         </Card>
