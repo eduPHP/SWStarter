@@ -3,11 +3,11 @@
 namespace SWApi\Resources;
 
 use Illuminate\Support\Collection;
-use SWApi\SWApiService;
+use SWApi\SWApiClient;
 
 abstract class Resource
 {
-    protected SWApiService $service;
+    protected SWApiClient $service;
     protected string $searchable = '';
     protected string $path = '';
 

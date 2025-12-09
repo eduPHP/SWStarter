@@ -2,12 +2,12 @@
 
 namespace SWApi;
 
+use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 
-class SWApiService
+class SWApiClient
 {
-
-    protected \Illuminate\Http\Client\PendingRequest $client;
+    protected PendingRequest $client;
 
     public function __construct()
     {

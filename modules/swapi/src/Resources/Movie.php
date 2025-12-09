@@ -2,8 +2,6 @@
 
 namespace SWApi\Resources;
 
-use Illuminate\Support\Collection;
-
 class Movie extends Resource
 {
     protected string $searchable = 'title';

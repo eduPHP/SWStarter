@@ -9,7 +9,7 @@ class SWApiServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/config/swapi.php', 'swapi');
 
         $this->app->bind('SWApi', function () {
-            return new SWApiService;
+            return new SWApiClient;
         });
     }
 }
