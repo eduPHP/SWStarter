@@ -13,18 +13,29 @@ class TestCase extends \Tests\TestCase
 
     }
 
-    public function fakeApiCall(string $path, string $fixture): void
+    public function fakeApiCall(array|string $path, ?string $fixture = null): void
     {
-        $base = rtrim(config('swapi.base_url'), '/');
-        $path = trim($path, '/');
-
-        Http::preventStrayRequests();
-
-        $fixtureFile = __DIR__ . '/fixtures/' . $fixture . '.json';
-        if (file_exists($fixtureFile)) {
-            Http::fake([
-                "$base/$path*"  => Http::response(file_get_contents($fixtureFile), 200),
-            ]);
+        if (!is_array($path)) {
+            $fakeInstructions = [$path => $fixture];
+        } else {
+            $fakeInstructions = $path;
         }
+
+        $base = rtrim(config('swapi.base_url'), '/');
+
+        $fakeUrls = [];
+
+        foreach ($fakeInstructions as $key => $value) {
+            $key = trim($key, '/');
+
+            Http::preventStrayRequests();
+
+            $fixtureFile = __DIR__ . '/fixtures/' . $value . '.json';
+            if (file_exists($fixtureFile)) {
+                $fakeUrls["$base/$key*"] = Http::response(file_get_contents($fixtureFile), 200);
+            }
+        }
+
+        Http::fake($fakeUrls);
     }
 }
