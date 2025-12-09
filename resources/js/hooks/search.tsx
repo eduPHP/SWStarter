@@ -34,22 +34,19 @@ export function SearchProvider({ children }: SearchProviderProps) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    async function search(overrideQuery?: string) {
-        const q = overrideQuery ?? query;
+    async function search() {
+        const q = query;
         if (!q.trim()) return;
 
         try {
             setLoading(true);
             setError(null);
 
-            fetch(`/find/${type}?q=${encodeURIComponent(q)}`)
-                .then((res) => res.json())
-                .then((data) => setResults(data))
-                .then(() => {
-                    setLoading(false);
-                    setError(null)
-                });
+            const request = await fetch(`/find/${type}?q=${encodeURIComponent(q)}`)
+            const data = await request.json();
+            setResults(data)
 
+            setError(null)
         } catch (err) {
             setError("Request error");
             console.log(err)
