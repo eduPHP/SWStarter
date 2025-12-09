@@ -14,7 +14,7 @@ Route::get('/find/people', function (\SWApi\Resources\Person $service) {
     ]);
 });
 
-Route::get('/find/movie', function (\SWApi\Resources\Movie $service) {
+Route::get('/find/movies', function (\SWApi\Resources\Movie $service) {
     return $service->search(request()->input('q'))->values();
 });
 

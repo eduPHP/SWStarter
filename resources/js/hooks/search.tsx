@@ -42,16 +42,14 @@ export function SearchProvider({ children }: SearchProviderProps) {
             setLoading(true);
             setError(null);
 
-            // TODO: API call
-            // Dummy data for now:
-            await new Promise((r) => setTimeout(r, 1000));
+            fetch(`/find/${type}?q=${encodeURIComponent(q)}`)
+                .then((res) => res.json())
+                .then((data) => setResults(data))
+                .then(() => {
+                    setLoading(false);
+                    setError(null)
+                });
 
-            setResults([
-                { id: 1, title: `Biggs Darklighter` },
-                { id: 2, title: `Obi-Wan Kenobi` },
-                { id: 3, title: `Jar Jar Binks` },
-                { id: 4, title: `Bib Fortuna` },
-            ]);
         } catch (err) {
             setError("Request error");
             console.log(err)

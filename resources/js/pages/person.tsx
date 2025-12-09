@@ -8,7 +8,7 @@ import { Card } from '@/components/Card';
 type PersonType = {
     id: number;
     name: string;
-    details: {name: string, value: string}[];
+    details: {label: string, value: string}[];
     movies: {title: string, id: number}[];
 };
 
@@ -30,7 +30,7 @@ export default function Person({ person }: {person: PersonType}) {
                             <Heading level={2} title="Details" />
                             <Separator />
                             <div>
-                                { details.map((detail: {name: string, value: string}) => <p key={detail.name}>{detail.name}: {detail.value}</p>) }
+                                { details.map((detail: {label: string, value: string}) => <p key={detail.label}>{detail.label}: {detail.value}</p>) }
                             </div>
                         </div>
                         <div>
