@@ -23,7 +23,7 @@ export default function Movie({ movie, characters }: {movie: MovieType, characte
 
     return (
         <>
-            <Head title="Search" />
+            <Head title={title} />
             <nav className="navbar">SWStarter</nav>
 
             <div className="container">

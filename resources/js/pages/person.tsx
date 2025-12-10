@@ -23,7 +23,7 @@ export default function Person({ person, movies }: {person: PersonType, movies?:
 
     return (
         <>
-            <Head title="Search" />
+            <Head title={name} />
             <nav className="navbar">SWStarter</nav>
             <div className="container">
                 <Card className="result-details">
