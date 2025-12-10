@@ -68,7 +68,8 @@ class StatsRecorder
 
     public function recordCacheStats(string $path, array $query, bool $hitFromCache, int $durationMs): void
     {
-        $length = strlen($path . json_encode($query));
+        $base = config('swapi.base_url');
+        $length = strlen($base . $path . json_encode($query));
 
         $this->statIncrement('stats:swapi:total_requests');
 
