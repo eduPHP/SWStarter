@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
+
 class StatsController
 {
 
@@ -28,5 +30,10 @@ class StatsController
             'cache_hit_percentage' => $snapshot['cache_hit_percentage'] ?? null,
             'request_timing' => $snapshot['request_timing'] ?? null,
         ]);
+    }
+
+    public function page()
+    {
+        return Inertia::render('stats');
     }
 }

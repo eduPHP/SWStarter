@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [SearchController::class, 'index'])->name('search');
 
+Route::get('/stats', [StatsController::class, 'page'])->name('stats');
+
 Route::get('/api/stats', [StatsController::class, 'index']);
 
 Route::get('/find/people', [SearchController::class, 'people']);
