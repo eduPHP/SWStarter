@@ -1,0 +1,44 @@
+services:
+  app:
+    build: .
+    container_name: laravel_app
+    working_dir: /var/www/html
+    env_file:
+      - .env
+    ports:
+      - "8011:8011"
+    environment:
+      REDIS_HOST: redis
+    depends_on:
+      - redis
+    # If serving via php-fpm + nginx, no port here.
+    # If you want quick built-in server instead, change CMD in Dockerfile.
+
+  redis:
+    image: redis:7-alpine
+    container_name: laravel_redis
+    volumes:
+      - redis_data:/data
+    command: ["redis-server", "--appendonly", "yes"]
+
+  scheduler:
+    build: .
+    container_name: laravel_scheduler
+    working_dir: /var/www/html
+    env_file:
+      - .env
+    environment:
+      REDIS_HOST: redis
+    depends_on:
+      - redis
+      - app
+    command: >
+       sh -c "
+       while true; do
+         php artisan schedule:run --no-interaction || true;
+         sleep 60;
+       done
+       "
+
+volumes:
+  redis_data:

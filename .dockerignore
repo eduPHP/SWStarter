@@ -1,0 +1,15 @@
+# Dependencies (we install inside the image)
+node_modules
+vendor
+
+# SQLite DB
+database/database.sqlite
+
+# Common noise
+.git
+.gitignore
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.idea
+.vscode
