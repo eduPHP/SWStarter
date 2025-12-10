@@ -1,5 +1,7 @@
 <?php
 
+use Inertia\Testing\AssertableInertia as Assert;
+
 uses(\SWApi\Tests\TestCase::class);
 
 it('can search for a person', function () {
@@ -21,7 +23,6 @@ it('can search for a person', function () {
 it('can find a person by id', function () {
     $this->fakeApiCall([
         'people/9' => 'person-9',
-        'films/1' => 'film-1',
     ]);
 
     $service = new \SWApi\Resources\Person();
@@ -29,6 +30,28 @@ it('can find a person by id', function () {
     $person = $service->findById(9);
 
     expect($person['name'])->toBe('Biggs Darklighter')->and($person['id'])->toBe(9);
-    expect($person['details'])->toHaveCount(6)->and($person['movies'])->toHaveCount(1);
+    expect($person['details'])->toHaveCount(6)->and($person['movie_ids'])->toHaveCount(1);
     expect($person['details'][0]['label'])->toBe('Gender');
+});
+
+
+it('loads lazy movies prop', function () {
+    $this->fakeApiCall([
+        'people/9' => 'person-9',
+        'films/1' => 'film-1',
+    ]);
+
+    $response = $this->withoutExceptionHandling()->get('people/9');
+
+    $response->assertInertia(fn (Assert $page) =>
+    $page
+        ->component('person')
+        ->has('person')
+        ->missing('movies') // lazy/deferred prop not in initial response
+        ->loadDeferredProps(fn (Assert $reload) =>
+        $reload
+            ->has('movies')
+            ->where('movies', fn ($movies) => count($movies) === 1 && $movies[0]['title'] === 'A New Hope')
+        )
+    );
 });
