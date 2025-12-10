@@ -1,18 +1,11 @@
 <?php
 
-namespace SWApi\tests;
+namespace SWApi\Tests;
 
 use Illuminate\Support\Facades\Http;
 
 class TestCase extends \Tests\TestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-
-    }
-
     public function fakeApiCall(array|string $path, ?string $fixture = null): void
     {
         if (!is_array($path)) {

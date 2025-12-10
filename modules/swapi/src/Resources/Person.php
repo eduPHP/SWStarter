@@ -32,4 +32,16 @@ class Person extends Resource
             )->toArray(),
         ];
     }
+
+    protected function recordSearchStats(string $query, array $results): void
+    {
+        $characterIds = collect($results)->pluck('uid')->all();
+
+        $this->stats->recordCharacterSearch($query, $characterIds);
+    }
+
+    protected function recordViewStats(array $result): void
+    {
+        $this->stats->recordCharacterDetails($result['uid']);
+    }
 }

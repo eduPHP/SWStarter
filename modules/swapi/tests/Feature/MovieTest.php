@@ -1,6 +1,6 @@
 <?php
 
-uses(\SWApi\tests\TestCase::class);
+uses(\SWApi\Tests\TestCase::class);
 
 it('can search for movies', function () {
     $this->fakeApiCall('films', 'movie-search');

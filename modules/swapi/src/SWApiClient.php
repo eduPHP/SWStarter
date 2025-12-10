@@ -18,11 +18,34 @@ class SWApiClient
     {
         $key = sha1(json_encode(func_get_args()));
 
-        // a simple cache to avoid hitting the rate limit by searching relation data
-        return cache()->remember($key, now()->addDay(), function () use ($path, $query) {
-            $response = $this->client->get($path, $query);
+        $hitFromCache = true;
 
-            return $response->json('result', []);
-        });
+        $result = cache()->remember(
+            $key,
+            now()->addDay(),
+            function () use ($path, $query, &$hitFromCache) {
+                $hitFromCache = false;
+
+                $response = $this->client->get($path, $query);
+
+                return $response->json('result', []);
+            }
+        );
+
+        $this->recordCacheStats($path, $query, $hitFromCache);
+
+        return $result;
+    }
+
+    private function recordCacheStats($path, array $query, bool $hitFromCache): void
+    {
+        $length = strlen($path . json_encode($query));
+
+        cache()->increment('stats:swapi:total_requests');
+
+        cache()->increment($hitFromCache ? 'stats:swapi:cache_hits' : 'stats:swapi:cache_misses');
+
+        cache()->increment('stats:swapi:req_length_sum', $length);
+        cache()->increment('stats:swapi:req_count');
     }
 }
