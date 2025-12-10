@@ -5,8 +5,6 @@ services:
       dockerfile: ./.docker/Dockerfile
     container_name: SWStarter_app
     working_dir: /var/www/html
-    env_file:
-      - .env
     ports:
       - "8011:8011"
     environment:
