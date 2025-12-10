@@ -4,16 +4,7 @@ set -e
 cd /var/www/html
 
 # 1) Always create .env for a fresh install
-if [ -f .env.example ]; then
-    cp -f .env.example .env
-else
-    : > .env
-fi
-
-# 2) Ensure there is an APP_KEY line
-if ! grep -q '^APP_KEY=' .env; then
-    printf 'APP_KEY=\n' >> .env
-fi
+cp -f .env.example .env
 
 # 3) Generate and inject APP_KEY via PHP (same format as key:generate)
 php <<'PHP'
@@ -21,12 +12,18 @@ php <<'PHP'
 $file = '.env';
 $env = file_get_contents($file);
 $env = preg_replace(
-    '/^APP_KEY=.*$/m',
-    'APP_KEY='.'base64:'.base64_encode(random_bytes(32)),
+    ['/^APP_KEY=.*$/m', '/^REDIS_HOST=.*$/m'],
+    [
+      'APP_KEY='.'base64:'.base64_encode(random_bytes(32)),
+      'REDIS_HOST=redis'
+    ],
     $env
 );
 file_put_contents($file, $env);
 PHP
+
+[ -f /var/www/html/database/database.sqlite ] || touch /var/www/html/database/database.sqlite
+chmod 666 /var/www/html/database/database.sqlite
 
 # 4) Run migrations
 php artisan migrate --force
