@@ -4,6 +4,11 @@ use Illuminate\Support\Facades\Cache;
 use function Pest\Laravel\artisan;
 
 beforeEach(function () {
+    // ensure it runs synchronously
+    config([
+        'cache.default' => 'array',
+        'queue.default' => 'sync',
+    ]);
     Cache::flush();
 });
 

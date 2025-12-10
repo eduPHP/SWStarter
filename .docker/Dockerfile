@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y \
     pkg-config \
     nodejs \
     npm \
+    vim \
     $PHPIZE_DEPS \
     && rm -rf /var/lib/apt/lists/*
 
@@ -28,7 +29,15 @@ WORKDIR /var/www/html
 COPY . .
 
 # Make sure app is writable
-RUN chown -R www-data:www-data /var/www/html
+RUN chown -R www-data:www-data /var/www/html \
+    && mkdir -p /var/www/.npm \
+    && chown -R www-data:www-data /var/www/.npm
+
+# Copy entrypoint
+COPY .docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+USER www-data
 
 # Install composer deps
 RUN composer install \
@@ -39,12 +48,6 @@ RUN composer install \
 
 # Install JS deps + build assets
 RUN NODE_OPTIONS="--max-old-space-size=512" npm ci && npm run build
-
-# Copy entrypoint
-COPY .docker/entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
-
-USER www-data
 
 EXPOSE 8011
 

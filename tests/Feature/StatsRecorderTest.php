@@ -4,6 +4,11 @@ use App\Services\StatsRecorder;
 use Illuminate\Support\Facades\Cache;
 
 beforeEach(function () {
+    // ensure it runs synchronously
+    config([
+        'cache.default' => 'array',
+        'queue.default' => 'sync',
+    ]);
     Cache::flush();
 });
 
