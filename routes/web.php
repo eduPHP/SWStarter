@@ -8,7 +8,7 @@ Route::get('/', function () {
     return Inertia::render('search');
 })->name('search');
 
-Route::get('/stats', function () {
+Route::get('/api/stats', function () {
     $snapshot = cache()->get('stats:snapshot:latest');
 
     if (!$snapshot) {
