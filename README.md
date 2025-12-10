@@ -13,7 +13,7 @@ docker compose up -d --build
 ## access the app
 
 - Search: http://localhost:8011
-- Stats: http://localhost:8011/stats
+- Stats: http://localhost:8011/stats / http://localhost:8011/api/stats
 
 ## run the tests
 
