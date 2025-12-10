@@ -6,6 +6,12 @@ use Illuminate\Support\Facades\Http;
 
 class TestCase extends \Tests\TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->withoutVite();
+    }
+
     public function fakeApiCall(array|string $path, ?string $fixture = null): void
     {
         if (!is_array($path)) {

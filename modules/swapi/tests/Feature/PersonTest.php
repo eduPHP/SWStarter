@@ -41,7 +41,7 @@ it('loads lazy movies prop', function () {
         'films/1' => 'film-1',
     ]);
 
-    $response = $this->withoutExceptionHandling()->get('people/9');
+    $response = $this->get('people/9');
 
     $response->assertInertia(fn (Assert $page) =>
     $page
