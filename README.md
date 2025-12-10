@@ -7,8 +7,7 @@ A SWAPI implementation
 ```
 git clone https://github.com/eduPHP/SWStarter.git eduardo-dalla-vecchia-assignment
 cd eduardo-dalla-vecchia-assignment
-docker compose build
-docker compose up -d
+docker compose up -d --build
 ```
 
 ## access the app
