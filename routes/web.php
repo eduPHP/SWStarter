@@ -3,6 +3,8 @@
 use App\Services\StatsRecorder;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use SWApi\Resources\Movie;
+use SWApi\Resources\Person;
 
 Route::get('/', function () {
     return Inertia::render('search');
@@ -33,7 +35,7 @@ Route::get('/api/stats', function () {
     ]);
 });
 
-Route::get('/find/people', function (\SWApi\Resources\Person $service, StatsRecorder $stats) {
+Route::get('/find/people', function (Person $service, StatsRecorder $stats) {
     $result = $service->search($q = request()->input('q'))->map(fn($person) => [
         'id' => $person['id'],
         'title' => $person['name'],
@@ -44,30 +46,32 @@ Route::get('/find/people', function (\SWApi\Resources\Person $service, StatsReco
     return $result;
 });
 
-Route::get('/find/movies', function (\SWApi\Resources\Movie $service, StatsRecorder $stats) {
-    $result = $service->search($q = request()->input('q'))->values();
+Route::get('/find/movies', function (Movie $movies, StatsRecorder $stats) {
+    $result = $movies->search($q = request()->input('q'))->values();
 
     $stats->recordMovieSearch(query: 'movie->'.$q, movieTitles: $result->pluck('title')->all());
 
     return $result;
 });
 
-Route::get('/people/{id}', function ($id, \SWApi\Resources\Person $service, StatsRecorder $stats) {
-    $person = $service->findById($id);
+Route::get('/people/{id}', function ($id, Person $people, Movie $movies, StatsRecorder $stats) {
+    $person = $people->findById($id);
 
     $stats->recordCharacterDetails($person['name']);
 
     return Inertia::render('person', [
         'person' => $person,
+        'movies' => Inertia::defer(fn () => $movies->findManyById($person['movie_ids']))
     ]);
 });
 
-Route::get('/movies/{id}', function ($id, \SWApi\Resources\Movie $service, StatsRecorder $stats) {
+Route::get('/movies/{id}', function ($id, Person $people, Movie $service, StatsRecorder $stats) {
     $movie = $service->findById($id);
 
     $stats->recordMovieDetails($movie['title']);
 
     return Inertia::render('movie', [
         'movie' => $movie,
+        'characters' => Inertia::defer(fn () => $people->findManyById($movie['character_ids']))
     ]);
 });

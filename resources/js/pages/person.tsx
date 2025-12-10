@@ -4,16 +4,22 @@ import { Separator } from '@/components/Separator';
 import { Button } from '@/components/Button';
 import { Head, Link, router } from '@inertiajs/react';
 import { Card } from '@/components/Card';
+import { WhenVisible } from '@inertiajs/react';
+import { RelationPlaceholder } from '@/components/RelationPlaceholder';
 
 type PersonType = {
     id: number;
     name: string;
     details: {label: string, value: string}[];
-    movies: {title: string, id: number}[];
 };
 
-export default function Person({ person }: {person: PersonType}) {
-    const { name, details, movies } = person;
+type MovieType = {
+    id: number;
+    title: string;
+}
+
+export default function Person({ person, movies }: {person: PersonType, movies?: MovieType[]}) {
+    const { name, details } = person;
 
     return (
         <>
@@ -39,11 +45,16 @@ export default function Person({ person }: {person: PersonType}) {
                             <Heading level={2} title="Movies" />
                             <Separator />
                             <div className="result-details-movies">
-                                {movies.map((movie: { title: string; id: number }) => (
-                                    <Link href={`/movies/${movie.id}`} key={movie.id}>
-                                        {movie.title}
-                                    </Link>
-                                ))}
+                                <WhenVisible fallback={<RelationPlaceholder />} data="movies" always>
+                                    <div>
+                                        {movies &&
+                                            movies.map((movie: { title: string; id: number }) => (
+                                                <Link href={`/movies/${movie.id}`} key={movie.id}>
+                                                    {movie.title}
+                                                </Link>
+                                            ))}
+                                    </div>
+                                </WhenVisible>
                             </div>
                         </div>
                     </div>

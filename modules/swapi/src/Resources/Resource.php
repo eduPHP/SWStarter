@@ -29,13 +29,6 @@ abstract class Resource
         return collect($results)->map(fn($movie) => static::mapBasic($movie));
     }
 
-    public static function findByUrl($url): array
-    {
-        $id = substr($url, strrpos($url, '/') + 1);
-
-        return (new static)->findById($id, expanded: false);
-    }
-
     public function findById(int $id, bool $expanded = true): array
     {
         $response = $this->service->get($this->path."/$id");
@@ -43,6 +36,12 @@ abstract class Resource
         return $expanded ? static::mapFull($response) : static::mapBasic($response);
     }
 
+    public function findManyById(array $ids): array
+    {
+        return collect($ids)->map(fn($id) => $this->findById($id, expanded: false))->toArray();
+    }
+
     abstract public static function mapBasic(array $resource): array;
+
     abstract public static function mapFull(array $resource): array;
 }

@@ -1,0 +1,31 @@
+.movies-placeholder {
+    div {
+        background: var(--light-grey);
+        animation: pulse 1s infinite; /* Name, duration, and infinite repetition */
+        height: 14px;
+        border-radius: 2px;
+        margin: .3rem 0;
+    }
+
+    &.inline {
+        display: flex;
+        justify-content: start;
+        flex-wrap: wrap;
+        gap: .3rem;
+        div {
+            margin: 0;
+        }
+    }
+
+    @keyframes pulse {
+        0% {
+            opacity: 1;
+        }
+        50% {
+            opacity: .8;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+}

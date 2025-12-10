@@ -2,8 +2,9 @@ import '../../css/result.scss'
 import { Heading } from '@/components/Heading';
 import { Separator } from '@/components/Separator';
 import { Button } from '@/components/Button';
-import { Head, Link, router } from '@inertiajs/react';
+import { Head, Link, router, WhenVisible } from '@inertiajs/react';
 import { Card } from '@/components/Card';
+import { RelationPlaceholder } from '@/components/RelationPlaceholder';
 
 type MovieType = {
     id: number;
@@ -12,15 +13,18 @@ type MovieType = {
     characters: {name: string, id: number}[];
 }
 
-export default function Movie({ movie }: {movie: MovieType}) {
-    const { title, details, characters } = movie;
+type CharacterType = {
+    id: number;
+    name: string;
+}
+
+export default function Movie({ movie, characters }: {movie: MovieType, characters?: CharacterType[]}) {
+    const { title, details } = movie;
 
     return (
         <>
             <Head title="Search" />
-            <nav className="navbar">
-                SWStarter
-            </nav>
+            <nav className="navbar">SWStarter</nav>
 
             <div className="container">
                 <Card className="result-details">
@@ -30,19 +34,22 @@ export default function Movie({ movie }: {movie: MovieType}) {
                         <div>
                             <Heading level={2} title="Opening Crawl" />
                             <Separator />
-                            <div className="result-details-info-description">
-                                { details }
-                            </div>
+                            <div className="result-details-info-description">{details}</div>
                         </div>
                         <div className="result-details-characters">
                             <Heading level={2} title="Characters" />
                             <Separator />
                             <div>
-                                { characters.map((character: {name: string, id: number}) => (
-                                    <span key={character.id}>
-                                        <Link href={`/people/${character.id}`}>{character.name}</Link>
-                                    </span>
-                                )) }
+                                <WhenVisible fallback={<RelationPlaceholder />} data="characters" always>
+                                    <div>
+                                        {characters &&
+                                            characters.map((character: { name: string; id: number }) => (
+                                                <span key={character.id}>
+                                                    <Link href={`/people/${character.id}`}>{character.name}</Link>
+                                                </span>
+                                            ))}
+                                    </div>
+                                </WhenVisible>
                             </div>
                         </div>
                     </div>
@@ -51,5 +58,5 @@ export default function Movie({ movie }: {movie: MovieType}) {
                 </Card>
             </div>
         </>
-    )
+    );
 }

@@ -27,8 +27,8 @@ class Person extends Resource
                 ['label' => 'Height', 'value' => $resource['properties']['height']],
                 ['label' => 'Mass', 'value' => $resource['properties']['mass']],
             ],
-            'movies' => collect($resource['properties']['films'])->map(
-                fn($movieUrl) => Movie::findByUrl($movieUrl)
+            'movie_ids' => collect($resource['properties']['films'])->map(
+                fn($url) => substr($url, strrpos($url, '/') + 1)
             )->toArray(),
         ];
     }

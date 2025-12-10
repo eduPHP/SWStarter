@@ -12,8 +12,8 @@ class Movie extends Resource
         return [
             ...self::mapBasic($resource),
             'details' => $resource['properties']['opening_crawl'],
-            'characters' => collect($resource['properties']['characters'])->map(
-                fn($character) => Person::findByUrl($character)
+            'character_ids' => collect($resource['properties']['characters'])->map(
+                fn($url) => substr($url, strrpos($url, '/') + 1)
             )->toArray(),
         ];
     }
