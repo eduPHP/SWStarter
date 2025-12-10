@@ -1,7 +1,9 @@
 services:
   app:
-    build: .
-    container_name: laravel_app
+    build:
+      context: .
+      dockerfile: ./.docker/Dockerfile
+    container_name: SWStarter_app
     working_dir: /var/www/html
     env_file:
       - .env
@@ -11,19 +13,19 @@ services:
       REDIS_HOST: redis
     depends_on:
       - redis
-    # If serving via php-fpm + nginx, no port here.
-    # If you want quick built-in server instead, change CMD in Dockerfile.
 
   redis:
     image: redis:7-alpine
-    container_name: laravel_redis
+    container_name: SWStarter_redis
     volumes:
       - redis_data:/data
     command: ["redis-server", "--appendonly", "yes"]
 
   scheduler:
-    build: .
-    container_name: laravel_scheduler
+    build:
+      context: .
+      dockerfile: ./.docker/Dockerfile
+    container_name: SWStarter_scheduler
     working_dir: /var/www/html
     env_file:
       - .env
@@ -39,6 +41,22 @@ services:
          sleep 60;
        done
        "
+
+  queue:
+    build:
+      context: .
+      dockerfile: ./.docker/Dockerfile
+    container_name: SWStarter_queue
+    working_dir: /var/www/html
+    env_file:
+      - .env
+    environment:
+      REDIS_HOST: redis
+    depends_on:
+      - redis
+      - app
+    command: >
+       sh -c "php artisan queue:work || true;"
 
 volumes:
   redis_data:

@@ -40,32 +40,13 @@ RUN composer install \
 # Install JS deps + build assets
 RUN NODE_OPTIONS="--max-old-space-size=512" npm ci && npm run build
 
+# Copy entrypoint
+COPY .docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
 USER www-data
 
 EXPOSE 8011
 
-CMD ["sh", "-lc", "\
-    cd /var/www/html && \
-    \
-    # 1) Always create .env for a fresh install
-    if [ -f .env.example ]; then \
-        cp -f .env.example .env; \
-    else \
-        : > .env; \
-    fi && \
-    \
-    # 2) Ensure there is an APP_KEY line
-    if ! grep -q '^APP_KEY=' .env; then \
-        printf 'APP_KEY=\n' >> .env; \
-    fi && \
-    \
-    # 3) Generate and inject APP_KEY via PHP (avoid sed escaping issues)
-    php -r 'file_put_contents(\".env\", preg_replace(\"/^APP_KEY=.*$/m\", \"APP_KEY=\".\"base64:\".base64_encode(random_bytes(32)), file_get_contents(\".env\")));' && \
-    \
-    # 4) Run migrations
-    touch database/database.sqlite && \
-    php artisan migrate --force && \
-    \
-    # 5) Start Laravel dev server
-    php artisan serve --host=0.0.0.0 --port=8011 \
-"]
+ENTRYPOINT ["entrypoint.sh"]
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8011"]
