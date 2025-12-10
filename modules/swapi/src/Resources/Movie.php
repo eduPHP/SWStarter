@@ -25,15 +25,4 @@ class Movie extends Resource
             'id' => (int)$resource['uid'],
         ];
     }
-
-    protected function recordSearchStats(string $query, array $results): void
-    {
-        $movieIds = collect($results)->pluck('uid')->all();
-        $this->stats->recordMovieSearch($query, $movieIds);
-    }
-
-    protected function recordViewStats(array $result): void
-    {
-        $this->stats->recordMovieDetails($result['uid']);
-    }
 }

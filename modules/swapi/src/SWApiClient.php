@@ -2,23 +2,27 @@
 
 namespace SWApi;
 
+use App\Services\StatsRecorder;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 
 class SWApiClient
 {
     protected PendingRequest $client;
+    protected StatsRecorder $stats;
 
     public function __construct()
     {
         $this->client = Http::baseUrl(config('swapi.base_url'));
+        $this->stats = new StatsRecorder;
     }
 
     public function get($path, array $query = [])
     {
         $key = sha1(json_encode(func_get_args()));
-
         $hitFromCache = true;
+
+        $start = microtime(true);
 
         $result = cache()->remember(
             $key,
@@ -32,20 +36,10 @@ class SWApiClient
             }
         );
 
-        $this->recordCacheStats($path, $query, $hitFromCache);
+        $durationMs = (int) round((microtime(true) - $start) * 1000);
+
+        $this->stats->recordCacheStats($path, $query, $hitFromCache, $durationMs);
 
         return $result;
-    }
-
-    private function recordCacheStats($path, array $query, bool $hitFromCache): void
-    {
-        $length = strlen($path . json_encode($query));
-
-        cache()->increment('stats:swapi:total_requests');
-
-        cache()->increment($hitFromCache ? 'stats:swapi:cache_hits' : 'stats:swapi:cache_misses');
-
-        cache()->increment('stats:swapi:req_length_sum', $length);
-        cache()->increment('stats:swapi:req_count');
     }
 }

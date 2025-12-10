@@ -2,8 +2,8 @@
 
 namespace SWApi\Resources;
 
+use App\Services\StatsRecorder;
 use Illuminate\Support\Collection;
-use SWApi\Services\StatsRecorder;
 use SWApi\SWApiClient;
 
 abstract class Resource
@@ -26,8 +26,6 @@ abstract class Resource
     {
         $results = $this->service->get($this->path, [$this->searchable => $query]);
 
-        $this->recordSearchStats($query, $results);
-
         return collect($results)->map(fn($movie) => static::mapBasic($movie));
     }
 
@@ -47,6 +45,4 @@ abstract class Resource
 
     abstract public static function mapBasic(array $resource): array;
     abstract public static function mapFull(array $resource): array;
-    abstract protected function recordSearchStats(string $query, array $results): void;
-    abstract protected function recordViewStats(array $result): void;
 }
