@@ -28,8 +28,7 @@ it('can get a movie details', function () {
     $movie = $service->findById(1);
 
     expect($movie['title'])->toBe('A New Hope')->and($movie['id'])->toBe(1);
-    // dd($movie['characters']);
-    expect($movie['characters'])->toHaveCount(18);
-    expect($movie['characters'][0]['name'])->toBe('Biggs Darklighter');
-    expect($movie['characters'][17]['name'])->toBe('Raymus Antilles');
+    expect($movie['character_ids'])->toHaveCount(18);
+    expect($movie['character_ids'][0])->toBe('1');
+    expect($movie['character_ids'][17])->toBe('81');
 });
